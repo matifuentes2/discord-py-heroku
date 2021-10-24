@@ -1,6 +1,7 @@
 import asyncio
 import discord
 import youtube_dl
+import os
 
 from discord.ext import commands
 
@@ -10,6 +11,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id="58ce68abb8894a9ebf78568148651075",
                                                            client_secret="640be1aff9114bb7b5069ade0071af6b"))
 
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -193,4 +195,4 @@ async def on_ready():
     print('------')
 
 bot.add_cog(Music(bot))
-bot.run('ODg3NzEyMDk1ODQyNTAwNjM4.YUIIUA.z3UpeL1Vhjr8PInVtLvrqgwSS4Q')
+bot.run('TOKEN')
