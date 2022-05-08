@@ -1,3 +1,7 @@
+import requests
+from time import sleep
+import json
+
 import asyncio
 import discord
 import youtube_dl
@@ -65,6 +69,21 @@ class Music(commands.Cog):
         self.bot = bot
         self.cola = []
         self.cola_titles = []
+    
+    @commands.command()
+    async def wow_lvls(self, ctx):
+        ctx.send("Recuperando información...")
+        player_list = ["Romeria", "Felipeperoni", "Jitomitanaka", "Pichulaxd", "Pedroprado"]
+        msg = ""
+        for player_name in player_list:
+            r = requests.get(f"http://armory.warmane.com/api/character/{player_name}/Lordaeron/profile", headers={'User-Agent': 'Custom'})
+            player_data = json.loads(r.text)
+            name = player_data["name"]
+            lvl = player_data["level"]
+            data = {"name":name, "lvl":lvl}
+            msg += f'{data["name"]} está lvl {data["lvl"]} \n'
+            sleep(3)
+        await ctx.send(msg)
     
     async def play_next(self, ctx):
         #if ctx.voice_client.is_playing is False:
