@@ -73,7 +73,7 @@ class Music(commands.Cog):
     @commands.command()
     async def wow_lvls(self, ctx):
         ctx.send("Recuperando información...")
-        player_list = ["Romeria", "Felipeperoni", "Jitomitanaka", "Watonne", "Pedroprado", "Dinoosuno", "Wiwiriski"]
+        player_list = ["Romeria", "Felipeperoni", "Jitomitanaka", "Watonne", "Madpolo", "Dinoosuno", "Wiwiriski"]
         msg = ""
         for player_name in player_list:
             r = requests.get(f"http://armory.warmane.com/api/character/{player_name}/Lordaeron/profile", headers={'User-Agent': 'Custom'})
