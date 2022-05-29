@@ -133,6 +133,28 @@ class Music(commands.Cog):
                         self.cola.append(url)
                         self.cola_titles.append(url)
                     await ctx.send(f'Playlist added to queue')
+            
+            elif "https://open.spotify.com/album/" in url:
+                spotify_query = sp.album_tracks(url)
+                artists = [[artist["name"] for artist in item["artists"]] for item in spotify_query["items"]]
+                songnames = [[item["name"]] for item in spotify_query["items"]]
+                track_list = list(map(lambda x, y: x[0] + " " + y[0], artists, songnames))
+                url = track_list.pop(0)
+                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                if ctx.voice_client.is_playing() or len(self.cola) > 0:
+                    self.cola.append(url)
+                    self.cola_titles.append(player.title)
+                    await ctx.send(f'{player.title} added to queue')
+                else:
+                    ctx.voice_client.play(player, after=lambda e: loop.create_task(self.play_next(ctx)))
+                    await ctx.send(f'Now playing: {player.title}')
+
+                if len(track_list) > 0:
+                    for track in track_list:
+                        url = track
+                        self.cola.append(url)
+                        self.cola_titles.append(url)
+                    await ctx.send(f'Album added to queue')
 
             else:
                 if "https://open.spotify.com/track/" in url:
